@@ -1,127 +1,264 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Happy Birthday Saanvi 💖</title>
+<title>Happy Birthday 💖</title>
 
 <style>
 body{
   margin:0;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:linear-gradient(135deg,#ffc8dd,#cdb4db);
   font-family:'Poppins', sans-serif;
   overflow:hidden;
-}
-
-.card{
-  background:white;
-  padding:25px;
-  width:330px;
-  border-radius:25px;
+  color:white;
   text-align:center;
-  box-shadow:0 15px 40px rgba(0,0,0,0.25);
-  z-index:2;
+  background: linear-gradient(-45deg,
+      #ff8ecf,
+      #f6a5ff,
+      #a0d8ff,
+      #6ecbff);
+  background-size:400% 400%;
+  animation:gradientMove 12s ease infinite;
 }
 
-img{
+@keyframes gradientMove{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+/* Sections */
+.section{
+  position:absolute;
   width:100%;
-  border-radius:20px;
-  margin-bottom:10px;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  transition:transform 0.9s ease;
 }
 
-h2{
-  color:#ff4d8d;
+#page1{ transform:translateX(0); }
+#page2{ transform:translateX(100%); }
+
+.active-page2 #page1{ transform:translateX(-100%); }
+.active-page2 #page2{ transform:translateX(0); }
+
+/* Page 1 Photos */
+.photos{
+  display:flex;
+  gap:30px;
+  margin-bottom:25px;
 }
+
+.photos img{
+  width:320px;
+  height:380px;
+  object-fit:contain;
+  border-radius:25px;
+  background:white;
+  box-shadow:0 20px 40px rgba(0,0,0,0.35);
+}
+
+/* Page 2 Positioned Photos */
+.photo{
+  position:absolute;
+  width:280px;
+  object-fit:contain;
+  border-radius:25px;
+  background:white;
+  box-shadow:0 15px 35px rgba(0,0,0,0.35);
+}
+
+.top-left{ top:60px; left:40px; }
+.middle-right{ top:35%; right:40px; }
+.bottom-left{ bottom:60px; left:60px; }
 
 button{
-  padding:10px 20px;
+  padding:14px 30px;
+  font-size:17px;
   border:none;
-  border-radius:20px;
+  border-radius:30px;
   background:#ff4d8d;
   color:white;
   cursor:pointer;
-  margin-top:10px;
+  margin-top:20px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.3);
 }
 
-#surprise, #secret{
-  display:none;
-}
-
-.cake{
-  font-size:55px;
-  animation:bounce 1.5s infinite;
-}
-
-@keyframes bounce{
-  0%{transform:translateY(0);}
-  50%{transform:translateY(-15px);}
-  100%{transform:translateY(0);}
-}
-
-/* Confetti */
-.confetti{
+/* Floating Hearts */
+.heart{
   position:fixed;
-  width:10px;
-  height:10px;
-  top:-10px;
+  font-size:22px;
+  animation:floatUp linear infinite;
+}
+@keyframes floatUp{
+  from{transform:translateY(100vh);}
+  to{transform:translateY(-10vh);}
+}
+
+/* Falling Stars */
+.star{
+  position:fixed;
+  font-size:18px;
   animation:fall linear infinite;
 }
-
 @keyframes fall{
-  to{transform:translateY(110vh) rotate(360deg);}
+  from{transform:translateY(-10vh);}
+  to{transform:translateY(110vh);}
+}
+
+/* Firework */
+.firework{
+  position:fixed;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  animation:explode 1s ease-out forwards;
+}
+
+@keyframes explode{
+  0%{transform:scale(1);}
+  100%{transform:scale(28); opacity:0;}
+}
+
+/* Soft glow particles */
+.glow{
+  position:fixed;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.6);
+  animation:glowFloat 10s linear infinite;
+}
+
+@keyframes glowFloat{
+  from{transform:translateY(100vh);}
+  to{transform:translateY(-10vh);}
 }
 </style>
 </head>
 
 <body>
 
-<div class="card" id="start">
-  <h2>Hey Saanvi 👀</h2>
-  <p>I made something special for you 💝</p>
-  <button onclick="openGift()">Open</button>
+<audio id="music" src="birthday.mp3" loop></audio>
+
+<!-- PAGE 1 -->
+<div class="section" id="page1">
+
+  <div class="photos">
+    <img src="photo1.jpeg">
+    <img src="photo2.jpeg">
+    <img src="photo3.jpeg">
+  </div>
+
+  <h1>🎂 Happy Birthday 🎂</h1>
+  <h2>Saanvi 💖</h2>
+
+  <p style="max-width:700px;">
+    You are one of the most beautiful souls I know ✨  
+    May your life be filled with happiness and endless magic 💕
+  </p>
+
+  <button onclick="startMagic()">Tap For Magic ✨</button>
+  <button onclick="nextPage()">Next 💌</button>
+
 </div>
 
-<div class="card" id="surprise">
-  <img src="saanvi.jpeg" alt="Birthday Girl">
-  <div class="cake">🎂</div>
-  <h2>Happy Birthday<br>Saanvi Panta 🎉</h2>
-  <p>
-    You deserve all the happiness,<br>
-    love & success in the world ✨<br><br>
-    Stay beautiful inside & out 💖
+<!-- PAGE 2 -->
+<div class="section" id="page2">
+
+  <img src="photo4.jpeg" class="photo top-left">
+  <img src="photo5.jpeg" class="photo middle-right">
+  <img src="photo6.jpeg" class="photo bottom-left">
+
+  <h1>Our Little World 💛</h1>
+
+  <p style="max-width:750px; line-height:1.8;">
+    Happy Birthday to you, our most special person 🎂💖<br><br>
+
+    We three talk every single evening, and whenever we get time, we talk again.  
+    I honestly can’t even sleep without talking to you both 😭💛<br><br>
+
+    We laugh together, talk endlessly, sometimes get annoyed…  
+    but in the end, we always come back to each other.<br><br>
+
+    I truly cannot stay without talking to you guys.  
+    You are my comfort, my happiness, my safe place 🌸✨<br><br>
+
+    Our friendship means more than words can explain 💖
   </p>
-  <button onclick="showSecret()">Tap for secret 💌</button>
-  <div id="secret" style="margin-top:10px; font-size:14px; color:#555;">
-    No matter what happens,<br>
-    I’ll always support you,<br>
-    and I’m lucky to have you 💗
-  </div>
+
+  <button onclick="prevPage()">Previous ⬅</button>
+
 </div>
 
 <script>
-function openGift(){
-  document.getElementById("start").style.display="none";
-  document.getElementById("surprise").style.display="block";
-  startConfetti();
+
+function startMagic(){
+  document.getElementById("music").play();
+  startHearts();
+  startStars();
+  startGlow();
 }
 
-function showSecret(){
-  document.getElementById("secret").style.display="block";
+function nextPage(){
+  document.body.classList.add("active-page2");
+  explodeFireworks();
 }
 
-function startConfetti(){
-  for(let i=0;i<100;i++){
-    let c=document.createElement("div");
-    c.className="confetti";
-    c.style.left=Math.random()*100+"vw";
-    c.style.backgroundColor=`hsl(${Math.random()*360},100%,70%)`;
-    c.style.animationDuration=(Math.random()*3+2)+"s";
-    document.body.appendChild(c);
+function prevPage(){
+  document.body.classList.remove("active-page2");
+}
+
+/* Hearts */
+function startHearts(){
+  setInterval(function(){
+    let h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="💖";
+    h.style.left=Math.random()*100+"vw";
+    h.style.animationDuration=(Math.random()*5+4)+"s";
+    document.body.appendChild(h);
+  },900);
+}
+
+/* Stars */
+function startStars(){
+  setInterval(function(){
+    let s=document.createElement("div");
+    s.className="star";
+    s.innerHTML="✨";
+    s.style.left=Math.random()*100+"vw";
+    s.style.animationDuration=(Math.random()*4+3)+"s";
+    document.body.appendChild(s);
+  },700);
+}
+
+/* Glow particles */
+function startGlow(){
+  setInterval(function(){
+    let g=document.createElement("div");
+    g.className="glow";
+    g.style.left=Math.random()*100+"vw";
+    document.body.appendChild(g);
+    setTimeout(()=>{g.remove();},10000);
+  },800);
+}
+
+/* Fireworks */
+function explodeFireworks(){
+  for(let i=0;i<35;i++){
+    let f=document.createElement("div");
+    f.className="firework";
+    f.style.left=Math.random()*100+"vw";
+    f.style.top=Math.random()*100+"vh";
+    f.style.backgroundColor=`hsl(${Math.random()*360},100%,60%)`;
+    document.body.appendChild(f);
+    setTimeout(()=>{f.remove();},1000);
   }
 }
+
 </script>
 
 </body>
